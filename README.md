@@ -50,12 +50,19 @@ The "/skills" resource demonstrates complete CRUD functionality.
 🔌 API Endpoints
 
 Method| Endpoint| Description
+
 GET| "/portfolio"| Retrieve portfolio information
+
 GET| "/skills"| Retrieve all skills
+
 POST| "/skills"| Create a new skill
+
 GET| "/skills/{id}"| Retrieve a specific skill
+
 PUT| "/skills/{id}"| Replace/update a skill
+
 PATCH| "/skills/{id}"| Partially update a skill
+
 DELETE| "/skills/{id}"| Delete a skill
 
 🧪 Example Requests
