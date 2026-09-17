@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	_ "modernc.org/sqlite"
@@ -306,7 +307,12 @@ func skillByIDHandler(w http.ResponseWriter, r *http.Request) {
 func initDatabase() {
 	var err error
 
-	db, err = sql.Open("sqlite", "rest-api.db")
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "rest-api.db"
+	}
+
+	db, err = sql.Open("sqlite", dbPath)
 	if err != nil {
 		log.Fatal("Failed to open database:", err)
 	}
@@ -339,19 +345,25 @@ func main() {
 	mux.HandleFunc("/skills", skillsHandler)
 	mux.HandleFunc("/skills/", skillByIDHandler)
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8090"
+	}
+
 	server := &http.Server{
-		Addr:    ":8090",
+		Addr:    ":" + port,
 		Handler: mux,
 	}
 
-	log.Println("REST API server listening on :8090")
-	log.Println("GET    http://localhost:8090/portfolio")
-	log.Println("GET    http://localhost:8090/skills")
-	log.Println("POST   http://localhost:8090/skills")
-	log.Println("GET    http://localhost:8090/skills/{id}")
-	log.Println("PUT    http://localhost:8090/skills/{id}")
-	log.Println("PATCH  http://localhost:8090/skills/{id}")
-	log.Println("DELETE http://localhost:8090/skills/{id}")
+	log.Printf("REST API server listening on :%s", port)
+	log.Printf("GET    /portfolio")
+	log.Printf("GET    /skills")
+	log.Printf("POST   /skills")
+	log.Printf("GET    /skills/{id}")
+	log.Printf("PUT    /skills/{id}")
+	log.Printf("PATCH  /skills/{id}")
+	log.Printf("DELETE /skills/{id}")
+
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
