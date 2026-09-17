@@ -149,6 +149,7 @@ This allows the same application to run locally and on a cloud platform with per
 1. Clone the repository
 
 git clone https://github.com/olaiyadigitech/rest-api.git
+
 cd rest-api
 
 2. Download dependencies
